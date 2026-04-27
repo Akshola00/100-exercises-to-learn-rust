@@ -11,3 +11,74 @@
 // Integration here has a very specific meaning: they test **the public API** of your project.
 // You'll need to pay attention to the visibility of your types and methods; integration
 // tests can't access private or `pub(crate)` items.
+pub struct Order {
+    pub product_name: String,
+    pub quantity: u32,
+    pub unit_price: u32,
+}
+
+trait Validate {
+    fn validate_product_name(product_name: &String) {
+        assert!(product_name.len() > 0, "The product name can't be empty");
+        assert!(
+            product_name.bytes().len() < 300,
+            "it can't be longer than 300 bytes"
+        );
+    }
+}
+
+impl Validate for Order {}
+
+impl Order {
+    pub fn new(product_name: String, quantity: u32, unit_price: u32) -> Self {
+        <Order as Validate>::validate_product_name(&product_name);
+        assert!(
+            quantity > 0,
+            "The quantity must be strictly greater than zero"
+        );
+        assert!(
+            unit_price > 0,
+            "The unit price is in cents and must be strictly greater than zero"
+        );
+        Self {
+            product_name,
+            quantity,
+            unit_price,
+        }
+    }
+
+    pub fn product_name(&self) -> &String {
+        &self.product_name
+    }
+
+    pub fn quantity(&self) -> &u32 {
+        &self.quantity
+    }
+
+    pub fn unit_price(&self) -> &u32 {
+        &self.unit_price
+    }
+
+    pub fn set_product_name(&mut self, product_name: String) {
+        <Order as Validate>::validate_product_name(&product_name);
+        self.product_name = product_name;
+    }
+    pub fn set_quantity(&mut self, quantity: u32) {
+        assert!(
+            quantity > 0,
+            "The quantity must be strictly greater than zero"
+        );
+        self.quantity = quantity
+    }
+    pub fn set_unit_price(&mut self, unit_price: u32) {
+        assert!(
+            unit_price > 0,
+            "The unit price is in cents and must be strictly greater than zero"
+        );
+        self.unit_price = unit_price
+    }
+
+    pub fn total(&self) -> u32 {
+        self.quantity * self.unit_price
+    }
+}
