@@ -2,7 +2,24 @@
 //   When the description is invalid, instead, it should use a default description:
 //   "Description not provided".
 fn easy_ticket(title: String, description: String, status: Status) -> Ticket {
-    todo!()
+        if title.is_empty() {
+            panic!("Title cannot be empty");
+        }
+        if title.len() > 50 {
+            panic!("Title cannot be longer than 50 bytes");
+        }
+        let mut desc = String::new();
+
+        if description.is_empty() || description.len() > 500 {
+            desc = String::from("Description not provided")
+        }
+
+
+    Ticket {
+            title,
+            description: desc,
+            status,
+        }
 }
 
 #[derive(Debug, PartialEq, Clone)]
