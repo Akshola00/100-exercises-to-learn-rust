@@ -31,6 +31,14 @@ impl TicketStore {
     pub fn add_ticket(&mut self, ticket: Ticket) {
         self.tickets.push(ticket);
     }
+
+    pub fn to_dos<'a >(&self) -> Vec<&Ticket> {
+        self.tickets.iter().filter(|x| x.status == Status::ToDo).collect()
+    }
+
+//  fn shoes_in_size(shoes: Vec<Shoe>, shoe_size: u32) -> Vec<Shoe> {
+//     shoes.into_iter().filter(|s| s.size == shoe_size).collect()
+//  }
 }
 
 #[cfg(test)]

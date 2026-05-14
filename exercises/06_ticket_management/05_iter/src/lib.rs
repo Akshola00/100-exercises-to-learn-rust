@@ -1,5 +1,5 @@
-use ticket_fields::{TicketDescription, TicketTitle};
 
+use ticket_fields::{TicketDescription, TicketTitle};
 // TODO: Provide an `iter` method that returns an iterator over `&Ticket` items.
 //
 // Hint: just like in the previous exercise, you want to delegate the iteration to
@@ -10,6 +10,11 @@ pub struct TicketStore {
     tickets: Vec<Ticket>,
 }
 
+impl TicketStore {
+    pub fn iter(&self) -> std::slice::Iter<Ticket> {
+        self.tickets.iter()
+    }
+}
 #[derive(Debug, Clone, PartialEq)]
 pub struct Ticket {
     title: TicketTitle,
